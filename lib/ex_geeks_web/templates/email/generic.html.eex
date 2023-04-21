@@ -1,0 +1,43 @@
+<mjml>
+  <mj-head>
+    <mj-preview></mj-preview>
+  </mj-head>
+  <mj-body background-color="#F4F4F4" color="#55575d" font-family="Arial, sans-serif">
+    <mj-section background-repeat="repeat" background-size="auto" padding-bottom="0px" padding-left="0px" padding-right="0px" padding-top="0px" padding="0px 0px 0px 0px" text-align="center" vertical-align="top">
+      <mj-column>
+        <mj-image align="center" alt="<%=@image_alt%>" border-radius="px" border="none" container-background-color="#ffffff" height="auto" href="" padding-bottom="0px" padding-left="0px" padding-right="0px" padding-top="0px" padding="0px 0px 0px 0px" src="<%=@logo%>" target="_blank" title="" width="598px"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#ffffff" background-repeat="repeat" background-size="auto" padding-left="0px" padding-right="0px" padding="20px 0px 20px 0px" text-align="center" vertical-align="top">
+      <mj-column>
+        <mj-text align="left" color="#000000" font-family="Arial, sans-serif" font-size="13px" letter-spacing="normal" padding-bottom="0px" padding-top="0px" padding="0px 25px 0px 25px">
+          <h1 class="text-build-content" style="text-align:center;; margin-top: 10px; margin-bottom: 10px" data-testid="0uV_IH3DYzj"><span style="font-family:Ubuntu;"><b><%=@greetings_translation%></b></span></h1>
+        </mj-text>
+        <mj-text align="left" color="#000000" font-family="Arial, sans-serif" font-size="14px" letter-spacing="normal" padding-bottom="0px" padding-top="0px" padding="0px 25px 0px 25px">
+          <p class="text-build-content" style="text-align: center; margin: 10px 0; margin-top: 10px; margin-bottom: 10px;" data-testid="wCXzov5m0La"><span style="background-color:transparent;color:#000000;font-family:Ubuntu;font-size:14px;line-height:22px;"><%=@introduction_translation%></span></p>
+        </mj-text>
+        <mj-button href="<%=@cta_url%>" align="center" background-color="transparent" border-radius="3px" border="2px dashed #05c0cc" color="#ffffff" font-family="Arial, sans-serif" font-size="13px" font-weight="normal" inner-padding="10px 25px 10px 25px" padding-left="25px" padding-right="25px" padding="10px 25px 10px 25px" text-decoration="none" text-transform="none" vertical-align="middle">
+          <span style="color:#000000;font-family:Ubuntu;font-size:14px;"><%=@cta_label%></span>
+        </mj-button>
+        <mj-text align="left" color="#000000" font-family="Arial, sans-serif" font-size="14px" letter-spacing="normal" padding-bottom="0px" padding-top="0px" padding="0px 25px 0px 25px">
+          <p class="text-build-content" style="text-align: center; margin: 10px 0; margin-top: 10px; margin-bottom: 10px;" data-testid="wCXzov5m0La"><span style="background-color:transparent;color:#000000;font-family:Ubuntu;font-size:14px;line-height:22px;"><%=@ending_translation%></span></p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#ffffff" background-repeat="repeat" background-size="auto" padding="20px 0" text-align="center" vertical-align="top">
+      <mj-column>
+        <mj-social align="center" border-radius="50%" container-background-color="#000000" font-family="Ubuntu, Helvetica, Arial, sans-serif" font-size="13px" icon-padding="0px 0px 0px 0px" icon-size="31" line-height="22px" mode="horizontal" padding-left="25px" padding-right="25px" padding-top="11px" padding="11px 25px 10px 25px" text-decoration="none" text-mode="false">
+          <mj-social-element background-color="#000000" href="https://www.facebook.com/geeks.software.solutions" name="facebook-noshare" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/facebook.png"></mj-social-element>
+          <mj-social-element background-color="#000000" href="https://www.instagram.com/geeks.solutions/" name="instagram-noshare" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/instagram.png"></mj-social-element>
+          <mj-social-element background-color="#000000" href="https://www.linkedin.com/company/geeks-solutions/" name="linkedin-noshare" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/linkedin.png"></mj-social-element>
+        </mj-social>
+        <mj-divider border-color="#05c0cc" border-style="dashed" border-width="1px" container-background-color="#000000" padding-left="25px" padding-right="25px" padding="10px 25px 10px 25px" width="100%"></mj-divider>
+        <mj-text align="left" color="#000000" container-background-color="#000000" font-family="Arial, sans-serif" font-size="13px" letter-spacing="normal" padding-bottom="0px" padding-left="25px" padding-right="25px" padding-top="0px" padding="0px 25px 0px 25px">
+          <p class="text-build-content" style="text-align: center; margin: 10px 0;" data-testid="Rzg_MBVBvf1P">
+            <span style="color:#ffffff;font-family:Arial;font-size:13px;line-height:22px;"><%=@copyright_translation%></span>
+          </p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

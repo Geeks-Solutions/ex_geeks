@@ -1,6 +1,6 @@
 defmodule ExGeeks.Helpers do
   @moduledoc """
-  Helper Functions for Beelee
+  Helper Functions
   """
   alias ExGeeksWeb.EmailView
 

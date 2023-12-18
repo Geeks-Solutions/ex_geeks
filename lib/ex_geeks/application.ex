@@ -8,12 +8,6 @@ defmodule ExGeeks.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Telemetry supervisor
-      ExGeeksWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: ExGeeks.PubSub},
-      # Start the Endpoint (http/https)
-      ExGeeksWeb.Endpoint
       # Start a worker by calling: ExGeeks.Worker.start_link(arg)
       # {ExGeeks.Worker, arg}
     ]

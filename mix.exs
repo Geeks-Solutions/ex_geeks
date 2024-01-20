@@ -34,6 +34,7 @@ defmodule ExGeeks.MixProject do
   defp deps do
     [
       {:phoenix_view, "~> 2.0"},
+      {:phoenix_html_helpers, "~> 1.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       #{:phoenix_html, "~> 3.0"},
@@ -43,6 +44,7 @@ defmodule ExGeeks.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:poison, "~> 5.0"},
       {:httpoison, "~> 1.8"},
+      {:credo, "~> 1.6.1", only: [:dev, :test], runtime: false},
       {:mjml, "~> 1.3"}
     ]
   end

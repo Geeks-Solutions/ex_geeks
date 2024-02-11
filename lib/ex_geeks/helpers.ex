@@ -216,7 +216,7 @@ defmodule ExGeeks.Helpers do
       do: fetch_response_body(response |> Map.put(:body, "#{body}"))
 
   def fetch_response_body(response) do
-    with true <- response.status_code in 200..299,
+    with true <- response.status_code in 200..499,
     {:ok, body} <- Poison.decode(response.body) do
       body
     else

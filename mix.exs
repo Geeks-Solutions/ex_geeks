@@ -44,8 +44,8 @@ defmodule ExGeeks.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:poison, "~> 5.0"},
       {:httpoison, "~> 1.8"},
-      {:credo, "~> 1.6.1", only: [:dev, :test], runtime: false},
-      {:mjml, "~> 1.3"}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:mjml, "~> 3.0"}
     ]
   end
 

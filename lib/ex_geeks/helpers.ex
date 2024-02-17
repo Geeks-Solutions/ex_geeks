@@ -230,6 +230,8 @@ defmodule ExGeeks.Helpers do
           _ ->
             {:error, response.body}
         end
+      {:error, %Poison.ParseError{}} ->
+        response.body
     end
   end
 

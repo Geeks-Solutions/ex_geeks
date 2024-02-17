@@ -33,8 +33,8 @@ defmodule ExGeeks.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix_view, "~> 2.0"},
-      {:phoenix_html_helpers, "~> 1.0"},
+      {:phoenix_view, "~> 2.0", optional: true},
+      {:phoenix_html_helpers, "~> 1.0", optional: true},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       #{:phoenix_html, "~> 3.0"},

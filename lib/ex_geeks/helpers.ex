@@ -7,6 +7,26 @@ defmodule ExGeeks.Helpers do
   import Ecto.Query
   require Logger
   @email_regex ~r/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
+
+  def env(key, opts \\ %{default: nil, raise: false}) do
+    Application.get_env(:ex_geeks, key)
+    |> case do
+      nil ->
+        if opts |> Map.get(:raise, false),
+          do: raise("Please configure :#{key} to use ex_geeks as desired,
+          i.e:
+          config, :ex_geeks,
+            #{key}: VALUE_HERE # Refer to the doc for more information on valid value(s)"),
+          else: opts |> Map.get(:default)
+
+      value ->
+        value
+    end
+  end
+
+  @doc """
+  Processes an error and format a clear error object to be fed to Absinthe
+  """
   def graphql_error(message, error \\ nil)
 
   def graphql_error(message, nil) when not is_binary(message) do
@@ -95,6 +115,11 @@ defmodule ExGeeks.Helpers do
     k
   end
 
+  ### HTTP CLIENT HELPERS
+
+  @doc """
+  Runs a GET request to the url using the headers provided
+  """
   def endpoint_get_callback(
         url,
         headers \\ [{"content-type", "application/json"}]
@@ -239,6 +264,61 @@ defmodule ExGeeks.Helpers do
     @email_regex
   end
 
+  #### LIST FILTERS HELPERS
+
+  @doc """
+  Use this to build valid filter objects that are passed to other standardized Geeks APIs (ie Auth)
+  The filters_input is a list of filters in the following format
+  ```elixir
+  [%{value: ["Geeks"], key: "firstname"}, %{value: ["Solutions", key: "lastname"]}]
+  ```
+
+  The concat_fields_map is a map of concatenation definition:
+  ```elixir
+  %{
+      "name" => ["profile.firstname", "profile.lastname"],
+      "firstname" => ["profile.firstname"],
+      "lastname" => ["profile.lastname"],
+      "email" => ["email"],
+      "device_id" => ["device_id"],
+      "user_id" => ["_id"]
+    }
+  ```
+  You can use that concatenation to bundle search on multiple fields and also to perform a `contains` filter
+  [Experimental]: The concat fields also enables to search in the field of a map object
+  """
+  def build_filters(filters_input, concat_fields_map) do
+    Enum.reduce(filters_input, {[], []}, fn %{key: filter_key, value: [filter_value]}, acc ->
+      build_filter(concat_fields_map, filter_key, acc, filter_value)
+    end)
+  end
+
+  defp build_filter(concat_fields_map, filter_key, acc, filter_value) do
+    case Enum.find(concat_fields_map, fn {key, _value} ->
+           key == filter_key
+         end) do
+      nil ->
+        {elem(acc, 0) ++ [%{filter_key => filter_value}], elem(acc, 1)}
+
+        # Special Key for Auth support
+      {"user_id", [value]} ->
+        {elem(acc, 0) ++ [%{"_id" => value}], elem(acc, 1)}
+
+      {key, value} ->
+        {elem(acc, 0),
+         elem(acc, 1) ++
+           [
+             %{
+               "fields" => value,
+               "operator" => "contains",
+               "value" => filter_value
+             }
+           ]}
+    end
+  end
+
+  #### ECTO QUERY HELPERS
+
   def add_offset(query, 0), do: query
   def add_offset(query, nil), do: query
 
@@ -264,5 +344,22 @@ defmodule ExGeeks.Helpers do
       |> Mjml.to_html()
 
     html_body
+  end
+
+  #### BSON Object Helpers
+  def bson_decode(document) do
+    Cyanide.decode(document)
+  end
+
+  def bson_decode!(document) do
+    Cyanide.decode!(document)
+  end
+
+  def bson_encode(document) do
+    Cyanide.encode(document)
+  end
+
+  def bson_encode!(document) do
+    Cyanide.encode!(document)
   end
 end

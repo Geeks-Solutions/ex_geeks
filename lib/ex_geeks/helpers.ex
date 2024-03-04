@@ -288,17 +288,19 @@ defmodule ExGeeks.Helpers do
   [Experimental]: The concat fields also enables to search in the field of a map object
   """
   def build_filters(filters_input, concat_fields_map) do
-    Enum.reduce(filters_input, {[], []}, fn %{key: filter_key, value: [filter_value]}, acc ->
-      build_filter(concat_fields_map, filter_key, acc, filter_value)
+    Enum.reduce(filters_input, {[], []}, fn %{key: _filter_key, value: [filter_value]} = filter, acc ->
+      build_filter(concat_fields_map, filter, acc, filter_value)
     end)
   end
 
-  defp build_filter(concat_fields_map, filter_key, acc, filter_value) do
+  defp build_filter(concat_fields_map, filter, acc, filter_value) do
     case Enum.find(concat_fields_map, fn {key, _value} ->
-           key == filter_key
+           key == filter.key
          end) do
       nil ->
-        {elem(acc, 0) ++ [%{filter_key => filter_value}], elem(acc, 1)}
+        if not is_nil(Map.get(filter, :operator)),
+        do: {elem(acc, 0) ++ [%{filter.key => %{filter.operator => filter_value}}], elem(acc, 1)},
+        else: {elem(acc, 0) ++ [%{filter.key => filter_value}], elem(acc, 1)}
 
         # Special Key for Auth support
       {"user_id", [value]} ->
@@ -310,7 +312,7 @@ defmodule ExGeeks.Helpers do
            [
              %{
                "fields" => value,
-               "operator" => "contains",
+               "operator" => (if not is_nil(Map.get(filter, :operator)), do: filter.operator, else: "contains"),
                "value" => filter_value
              }
            ]}

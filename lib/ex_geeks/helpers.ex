@@ -303,8 +303,8 @@ defmodule ExGeeks.Helpers do
         else: {elem(acc, 0) ++ [%{filter.key => filter_value}], elem(acc, 1)}
 
         # Special Key for Auth support
-      {"user_id", [value]} ->
-        {elem(acc, 0) ++ [%{"_id" => value}], elem(acc, 1)}
+      {"user_id", [_value]} ->
+        {elem(acc, 0) ++ [%{"_id" => filter_value}], elem(acc, 1)}
 
       {key, value} ->
         {elem(acc, 0),
@@ -349,19 +349,7 @@ defmodule ExGeeks.Helpers do
   end
 
   #### BSON Object Helpers
-  def bson_decode(document) do
-    Cyanide.decode(document)
-  end
-
-  def bson_decode!(document) do
-    Cyanide.decode!(document)
-  end
-
-  def bson_encode(document) do
-    Cyanide.encode(document)
-  end
-
-  def bson_encode!(document) do
-    Cyanide.encode!(document)
+  def valid_bson?(id) do
+    id =~ ~r/^[0-9a-f]{24}$/
   end
 end

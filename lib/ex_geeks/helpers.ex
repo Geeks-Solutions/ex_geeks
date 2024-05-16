@@ -122,11 +122,13 @@ defmodule ExGeeks.Helpers do
   """
   def endpoint_get_callback(
         url,
-        headers \\ [{"content-type", "application/json"}]
+        headers \\ [{"content-type", "application/json"}],
+        opts \\ []
       ) do
     case HTTPoison.get(url, headers) do
       {:ok, response} ->
-        fetch_response_body(response)
+        decoded_body = fetch_response_body(response)
+        if opts[:raw], do: Map.put(response, :decoded_body, decoded_body), else: decoded_body
 
       {:error, error} ->
         Logger.error("#{inspect(error)}")
@@ -137,13 +139,15 @@ defmodule ExGeeks.Helpers do
   def endpoint_put_callback(
         url,
         args,
-        headers \\ [{"content-type", "application/json"}]
+        headers \\ [{"content-type", "application/json"}],
+        opts \\ []
       ) do
     {:ok, body} = args |> Poison.encode()
 
     case HTTPoison.put(url, body, headers) do
       {:ok, response} ->
-        fetch_response_body(response)
+        decoded_body = fetch_response_body(response)
+        if opts[:raw], do: Map.put(response, :decoded_body, decoded_body), else: decoded_body
 
       {:error, error} ->
         Logger.error("#{inspect(error)}")
@@ -155,13 +159,15 @@ defmodule ExGeeks.Helpers do
   def endpoint_post_callback(
         url,
         args,
-        headers \\ [{"content-type", "application/json"}]
+        headers \\ [{"content-type", "application/json"}],
+        opts \\ []
       ) do
     {:ok, body} = args |> Poison.encode()
 
     case HTTPoison.post(url, body, headers) do
       {:ok, response} ->
-        fetch_response_body(response)
+        decoded_body = fetch_response_body(response)
+        if opts[:raw], do: Map.put(response, :decoded_body, decoded_body), else: decoded_body
 
       {:error, error} ->
         Logger.error("#{inspect(error)}")
@@ -194,13 +200,15 @@ defmodule ExGeeks.Helpers do
         method,
         url,
         body,
-        headers \\ [{"content-type", "application/json"}]
+        headers \\ [{"content-type", "application/json"}],
+        opts \\ []
       ) do
     body = transform_body(body, headers)
 
     case HTTPoison.request(method, url, body, headers) do
       {:ok, response} ->
-        fetch_response_body(response)
+        decoded_body = fetch_response_body(response)
+        if opts[:raw], do: Map.put(response, :decoded_body, decoded_body), else: decoded_body
 
       {:error, error} ->
         Logger.error("#{inspect(error)}")
@@ -210,7 +218,8 @@ defmodule ExGeeks.Helpers do
 
   def endpoint_delete_callback(
         url,
-        headers \\ [{"content-type", "application/json"}]
+        headers \\ [{"content-type", "application/json"}],
+        opts \\ []
       ) do
     # to use a delete request with a body
     # refer to Httpoison.request/5
@@ -218,7 +227,8 @@ defmodule ExGeeks.Helpers do
 
     case HTTPoison.delete(url, headers) do
       {:ok, response} ->
-        fetch_response_body(response)
+        decoded_body = fetch_response_body(response)
+        if opts[:raw], do: Map.put(response, :decoded_body, decoded_body), else: decoded_body
 
       {:error, error} ->
         Logger.error("#{inspect(error)}")

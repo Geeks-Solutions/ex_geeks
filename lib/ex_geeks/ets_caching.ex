@@ -41,14 +41,14 @@ defmodule ExGeeks.EtsCaching do
       GenServer.start_link(__MODULE__, arg, name: __MODULE__)
     end
 
-    def handle_cast({:insert, table, key, value}, state) do
+    def handle_call({:insert, table, key, value}, _from, state) do
       :ets.insert(table, {key, value})
-      {:noreply, state}
+      {:reply, :ok, state}
     end
 
-    def handle_cast({:delete, table, key}, state) do
+    def handle_call({:delete, table, key}, _from, state) do
       :ets.delete(table, key)
-      {:noreply, state}
+      {:reply, :ok, state}
     end
 
     # def new(table, options \\ [:set, :protected, :named_table]) do
@@ -66,10 +66,10 @@ defmodule ExGeeks.EtsCaching do
     end
 
     def set(table, key, value) do
-      GenServer.cast(__MODULE__, {:insert, table, key, value})
+      GenServer.call(__MODULE__, {:insert, table, key, value})
     end
 
     def delete(table, key) do
-      GenServer.cast(__MODULE__, {:delete, table, key})
+      GenServer.call(__MODULE__, {:delete, table, key})
     end
 end

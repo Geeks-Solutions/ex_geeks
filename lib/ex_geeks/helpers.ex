@@ -83,35 +83,37 @@ defmodule ExGeeks.Helpers do
   @doc """
   Convert map string keys to :atom keys
   """
-  def atomize_keys(nil), do: nil
+  def atomize_keys(map, opts \\ [])
+  def atomize_keys(nil, _), do: nil
 
   # Structs don't do enumerable and anyway the keys are already
   # atoms
-  def atomize_keys(%{__struct__: _} = struct) do
+  def atomize_keys(%{__struct__: _} = struct, _) do
     struct
   end
 
-  def atomize_keys(%{} = map) do
+  def atomize_keys(%{} = map, opts) do
     map
-    |> Enum.map(fn {k, v} -> {atomize(k), atomize_keys(v)} end)
+    |> Enum.map(fn {k, v} -> {atomize(k, opts), atomize_keys(v, opts)} end)
     |> Enum.into(%{})
   end
 
   # Walk the list and atomize the keys of
   # of any map members
-  def atomize_keys([head | rest]) do
-    [atomize_keys(head) | atomize_keys(rest)]
+  def atomize_keys([head | rest], opts) do
+    [atomize_keys(head, opts) | atomize_keys(rest, opts)]
   end
 
-  def atomize_keys(not_a_map) do
+  def atomize_keys(not_a_map, _) do
     not_a_map
   end
 
-  def atomize(k) when is_binary(k) do
+  def atomize(k, opts) when is_binary(k) do
+    k = if is_function(opts[:transformer]), do: opts[:transformer].(k), else: k
     String.to_atom(k)
   end
 
-  def atomize(k) do
+  def atomize(k, _) do
     k
   end
 

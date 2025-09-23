@@ -45,7 +45,7 @@ defmodule ExGeeks.MixProject do
       {:poison, "~> 5.0"},
       {:httpoison, "~> 1.8"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:mjml, "~> 3.0"}
+      {:mjml, "~> 3.0", optional: true}
     ]
   end
 

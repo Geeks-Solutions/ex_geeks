@@ -40,9 +40,8 @@ defmodule ExGeeks.MixProject do
       #{:phoenix_html, "~> 3.0"},
       {:floki, ">= 0.30.0", only: :test},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:poison, "~> 5.0"},
+      {:poison, "~> 6.0"},
       {:httpoison, "~> 1.8"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:mjml, "~> 3.0", optional: true}

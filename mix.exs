@@ -9,7 +9,6 @@ defmodule ExGeeks.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -33,31 +32,10 @@ defmodule ExGeeks.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix_view, "~> 2.0", optional: true},
-      {:phoenix_html_helpers, "~> 1.0"},
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
-      #{:phoenix_html, "~> 3.0"},
-      {:floki, ">= 0.30.0", only: :test},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:plug_cowboy, "~> 2.5"},
+      {:ecto, "~> 3.6"},
       {:poison, "~> 6.0"},
       {:httpoison, "~> 1.8"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:mjml, "~> 3.0", optional: true}
-    ]
-  end
-
-  # Aliases are shortcuts or tasks specific to the current project.
-  # For example, to install project dependencies and perform other setup tasks, run:
-  #
-  #     $ mix setup
-  #
-  # See the documentation for `Mix` for more info on aliases.
-  defp aliases do
-    [
-      setup: ["deps.get"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 end

@@ -2,8 +2,6 @@ defmodule ExGeeks.Helpers do
   @moduledoc """
   Helper Functions
   """
-  alias ExGeeksWeb.EmailView
-
   import Ecto.Query
   require Logger
   @email_regex ~r/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
@@ -254,7 +252,7 @@ defmodule ExGeeks.Helpers do
 
   def fetch_response_body(response) do
     with true <- response.status_code in 200..499,
-    {:ok, body} <- Poison.decode(response.body) do
+         {:ok, body} <- Poison.decode(response.body) do
       body
     else
       false ->
@@ -267,6 +265,7 @@ defmodule ExGeeks.Helpers do
           _ ->
             {:error, response.body}
         end
+
       {:error, %Poison.ParseError{}} ->
         response.body
     end
@@ -300,7 +299,8 @@ defmodule ExGeeks.Helpers do
   [Experimental]: The concat fields also enables to search in the field of a map object
   """
   def build_filters(filters_input, concat_fields_map) do
-    Enum.reduce(filters_input, {[], []}, fn %{key: _filter_key, value: [filter_value]} = filter, acc ->
+    Enum.reduce(filters_input, {[], []}, fn %{key: _filter_key, value: [filter_value]} = filter,
+                                            acc ->
       build_filter(concat_fields_map, filter, acc, filter_value)
     end)
   end
@@ -311,20 +311,22 @@ defmodule ExGeeks.Helpers do
          end) do
       nil ->
         if not is_nil(Map.get(filter, :operator)),
-        do: {elem(acc, 0) ++ [%{filter.key => %{filter.operator => filter_value}}], elem(acc, 1)},
-        else: {elem(acc, 0) ++ [%{filter.key => filter_value}], elem(acc, 1)}
+          do:
+            {elem(acc, 0) ++ [%{filter.key => %{filter.operator => filter_value}}], elem(acc, 1)},
+          else: {elem(acc, 0) ++ [%{filter.key => filter_value}], elem(acc, 1)}
 
-        # Special Key for Auth support
+      # Special Key for Auth support
       {"user_id", [_value]} ->
         {elem(acc, 0) ++ [%{"_id" => filter_value}], elem(acc, 1)}
 
-      {key, value} ->
+      {_key, value} ->
         {elem(acc, 0),
          elem(acc, 1) ++
            [
              %{
                "fields" => value,
-               "operator" => (if not is_nil(Map.get(filter, :operator)), do: filter.operator, else: "contains"),
+               "operator" =>
+                 if(not is_nil(Map.get(filter, :operator)), do: filter.operator, else: "contains"),
                "value" => filter_value
              }
            ]}
@@ -347,17 +349,6 @@ defmodule ExGeeks.Helpers do
   def add_limit(query, limit) do
     query
     |> limit(^limit)
-  end
-
-  def render_template(template, assigns \\ []) do
-    {:ok, html_body} =
-      EmailView.render_to_string(
-        template,
-        assigns
-      )
-      |> Mjml.to_html()
-
-    html_body
   end
 
   #### BSON Object Helpers
